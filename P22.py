@@ -3,10 +3,12 @@ from pathCreator import PathCreator
 
 
 def main(map_file):
-    map = MapP22(map_file)
-    p = PathCreator(map,"random")
+    m = MapP22(map_file)
+    p = PathCreator(m,"random")
     essai = p.create_path()
-    p.path_to_traj(essai)
+    t = p.path_to_traj(essai)
+    m.add_traj(t)
+    m.to_JSON(r"C:\Users\Etienne\Documents\Code\MultiAgent\Assignment_2\traj.JSON")
     """
         Magic happens here !
     """

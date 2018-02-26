@@ -10,7 +10,7 @@ class PathCreator:
         self_motion = motion_model
 
     def random_path(self):
-        total_points = self.m.num_agents + self.m.poi.shape[0]
+        total_points = self.m.num_agents + len(self.m.poi)
         set_of_points = np.arange(total_points)
         np.random.shuffle(set_of_points)
         return set_of_points
@@ -39,7 +39,7 @@ class PathCreator:
             for inter_point in paths[agent]:
                 coords_goals = self.m.poi[inter_point]
                 while (euclid_distance(traj[-1],coords_goals) > self.m.dt * self.m.v_max):
-                    new_point = np.zeros((2))
+                    new_point = [0,0]
                     new_point[0] = traj[-1][0] + ((coords_goals[0]-traj[-1][0])*self.m.v_max*self.m.dt / euclid_distance(traj[-1],coords_goals))
                     new_point[1] = traj[-1][1] + ((coords_goals[1]-traj[-1][1])*self.m.v_max*self.m.dt / euclid_distance(traj[-1],coords_goals))
                     traj.append(new_point)
@@ -53,7 +53,7 @@ class PathCreator:
             traj.append(coords_goals)
             trajectories[agent] = traj
             print("test")
-        print(0)
+        return(trajectories)
 
 
     def create_path(self):
