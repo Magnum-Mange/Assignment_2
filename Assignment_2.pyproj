@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{e0129c99-c289-4783-9c41-4a7ec03d26fb}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>P25.py</StartupFile>
+    <StartupFile>P22.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -19,7 +19,10 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="class1.py">
+    <Compile Include="helpers.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MapP22.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Map.py" />
@@ -28,6 +31,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="P25.py" />
+    <Compile Include="pathCreator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="plotFunctions.py" />
   </ItemGroup>
   <ItemGroup>
