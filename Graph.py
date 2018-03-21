@@ -84,17 +84,22 @@ class Graph(object):
                         if (self.get_node(next).type == 'CORNER'):
                                 new_explored[next] = cost
             from_explored = new_explored
-        return paths
+        return [paths, explored]
 
     def compute_shorts(self):
         ret = {}
+        dist = {}
         for n in self.nodes.keys():
             print(n)
-            ret[n] = self.shortest_path(n)
+            temp = self.shortest_path(n)
+            ret[n] = temp[0]
+            dist[n] = temp[1]
         self.shorts = ret
+        self.dists = dist
 
     def quick_path(self,n1,n2):
         return self.shorts[n1][n2]
+
 
 
 
