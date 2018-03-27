@@ -95,9 +95,9 @@ class PathCreator:
             # Creation of the complete path for the agent : since some points are not visible from each other, we have to add new inter points in between.
             complete_path = []
             if (len(paths[agent]) > 0):
-                complete_path += self.g.quick_path(self.g.starts[agent],paths[agent][0])
+                complete_path += self.g.quick_path(self.g.starts[agent],paths[agent][0]+self.m.num_agents)
             for i in range (1, len(paths[agent])):
-                new_segment = self.g.quick_path(paths[agent][i-1],paths[agent][i])
+                new_segment = self.g.quick_path(paths[agent][i-1]+self.m.num_agents,paths[agent][i]+self.m.num_agents)
                 complete_path = complete_path + new_segment
             last_segment = []
             if len(complete_path)==0:
@@ -181,7 +181,7 @@ class PathCreator:
             for i in range(5000):
                 points = self.random_path()
                 population.append(PathObject(points,self.evaluate_paths(points)))
-            for gen in range(5000):
+            for gen in range(100):
                 population = sorted(population,key=lambda pat:pat.cost)
                 print(population[0].cost)
                 for i in range(int(len(population)*self.gen_cross)):

@@ -10,7 +10,7 @@ def main(map_file):
     t = p.path_to_traj(essai)
     print(p.evaluate_paths(essai))
     m.add_traj(t)
-    m.to_JSON(r"C:\Users\Etienne\Documents\Code\MultiAgent\Assignment_2\traj.JSON")
+    m.to_JSON(r"E:\Code\Assignment2\traj.JSON")
     #pa = g.shortest_path(0,31)
     print("Magic")
     """
@@ -20,4 +20,4 @@ def main(map_file):
 
 
 if (__name__ == "__main__"):
-    main(r"C:\Users\Etienne\Documents\Code\MultiAgent\Assignment_2\P22.json")
+    main(r"E:\Code\Assignment2\P22.json")
