@@ -1,7 +1,7 @@
 from MapP22 import MapP22
 import numpy as np
 from helpers import euclid_distance
-from copy import copy
+from copy import copy, deepcopy
 from operator import attrgetter
 from builtins import sorted
 
@@ -54,8 +54,8 @@ class PathCreator:
         self.g.compute_shorts()
         self.type = type
         self_motion = motion_model
-        self.gen_mut = 0.2
-        self.gen_cross = 0.3
+        self.gen_mut = 0.3
+        self.gen_cross = 0.4
 
     def random_path(self):
         # In this path, indexes below "num_agents" are the agents, and above are the points of interest.
@@ -178,15 +178,17 @@ class PathCreator:
             return self.random_path()
         if (self.type == "genetic"):
             population = []
-            for i in range(5000):
+            for i in range(1000):
                 points = self.random_path()
                 population.append(PathObject(points,self.evaluate_paths(points)))
-            for gen in range(100):
+            for gen in range(5000):
                 population = sorted(population,key=lambda pat:pat.cost)
-                print(population[0].cost)
+                print("Generation " + str(gen) + " : " + str(population[0].cost))
                 for i in range(int(len(population)*self.gen_cross)):
-                    p1 = np.random.randint(int(len(population)*self.gen_cross))
-                    p2 = np.random.randint(int(len(population)*self.gen_cross))
+                    #p1 = np.random.randint(int(len(population)*self.gen_cross))
+                    #p2 = np.random.randint(int(len(population)*self.gen_cross))
+                    p1 = np.random.randint(len(population))
+                    p2 = np.random.randint(len(population))
                     population[i+int(len(population)*(1-self.gen_cross))] = population[p1].cross(population[p2])
                     population[i+int(len(population)*(1-self.gen_cross))].cost = self.evaluate_paths(population[i+int(len(population)*(1-self.gen_cross))].points)
                 for i in range(len(population)):
@@ -195,5 +197,26 @@ class PathCreator:
                         population[i] = population[i].mutation()
                         population[i].cost = self.evaluate_paths(population[i].points)
             population = sorted(population,key=lambda pat:pat.cost)
-            return population[0].points
+            best_path = population[0]
+            current_i = 0
+            while (current_i < len(best_path.points)):
+                path_copy = deepcopy(best_path)
+                print(current_i)
+                best = False
+                for j in range(len(best_path.points)):
+                    if (not best):
+                        mem = best_path.points[current_i]
+                        path_copy.points[current_i] = path_copy.points[j]
+                        path_copy.points[j] = mem
+                        path_copy.cost = self.evaluate_paths(path_copy.points)
+                        if (path_copy.cost < best_path.cost):
+                            best_path = path_copy
+                            current_i = 0
+                            best = True
+                        else:
+                            path_copy = deepcopy(best_path)
+                if (not best):    
+                    current_i += 1
+            return best_path.points
+        #if self.type = 'improve':
 

@@ -103,7 +103,20 @@ class MapP22:
             graph.add_node(n)
         for i in range(self.num_obstacles):
             for j in range (len(self.obstacles[i])):
-                n = Node(type="CORNER",position_x=self.obstacles[i][j][0],position_y=self.obstacles[i][j][1],index=graph.size)
+                p1 = [0,0]
+                p2 = [0,0]
+                p3 = [0,0]
+                if (j==0):
+                    p1 = self.obstacles[i][-1]
+                else:
+                    p1 = self.obstacles[i][j-1]
+                if (j == len(self.obstacles[i])-1):
+                    p3 = self.obstacles[i][0]
+                else:
+                    p3 = self.obstacles[i][j+1]
+                p2 = self.obstacles[i][j]
+                offset = [(2*p2[0]-p1[0]-p3[0])*0.01,(2*p2[1]-p1[1]-p3[1])*0.01]
+                n = Node(type="CORNER",position_x=p2[0]+offset[0],position_y=p2[1]+offset[1],index=graph.size)
                 graph.add_node(n)
         graph.update_visibility(self)
         return graph
