@@ -4,8 +4,6 @@ import plotFunctions
 import matplotlib.pyplot as plt
 import cProfile
 
-# Code for kinematic car
-
 class Node():
 
     def __init__(self, pos, theta, v, vel):
@@ -129,7 +127,7 @@ def formationManeuvering(acquisitionPaths, mapp, formation):
 
     leaderStartingSpeed = np.array([mapp.traj_x[1] - mapp.traj_x[0], mapp.traj_y[1] - mapp.traj_y[0]]) / mapp.dt
     
-    for pathNo in range(1):#len(acquisitionPaths)):
+    for pathNo in range(len(acquisitionPaths)):
         print("pathNo: ", pathNo)
         path = acquisitionPaths[pathNo]
         eOld = 0
@@ -180,27 +178,35 @@ def formationManeuvering(acquisitionPaths, mapp, formation):
 ##        for node in path:
 ##            print(node.x, node.y)
 
-        plotFunctions.plotMap(mapp.bounding_polygon)
-        plotFunctions.plotTree(path[0])
-        plotFunctions.plotPath(path[len(path)-1])
+##        plotFunctions.plotMap(mapp.bounding_polygon)
+##        plotFunctions.plotTree(path[0])
+##        plotFunctions.plotPath(path[len(path)-1])
         eSum += es
+        paths.append(path)
+
 ##        plt.plot(mapp.traj_t, es, 'b')
 
 ##    plt.plot(mapp.traj_t, eSum, 'r')
 
+    for path in paths:
+        for node in range(len(max(paths, key = len)) - len(path)):
+            currentNode = path[len(path) - 1]
+            newNode = Node(currentNode.pos, currentNode.theta, currentNode.v, currentNode.vel)
+            newNode.parent = currentNode
+            currentNode.children.append(newNode)
+            path.append(newNode)
+
     plt.plot(mapp.traj_x, mapp.traj_y, 'b')
     
-    plt.show()        
-
-    paths.append(path)
+##    plt.show()        
 
     return paths
 
 ##    for tree in trees:
 
-formation = Formation(Map.Map("P25.json", "P25_26_traj.json").formation_positions)    
-paths = formationAcquisition(Map.Map("P25.json", "P25_26_traj.json"), formation)
-paths = formationManeuvering(paths, Map.Map("P25.json", "P25_26_traj.json"), formation)
+##formation = Formation(Map.Map("P25.json", "P25_26_traj.json").formation_positions)    
+##paths = formationAcquisition(Map.Map("P25.json", "P25_26_traj.json"), formation)
+##paths = formationManeuvering(paths, Map.Map("P25.json", "P25_26_traj.json"), formation)
 
 ##pidTuner()
 
